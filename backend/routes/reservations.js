@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../config/database');
+const { requireAdmin } = require('../middleware/auth');
 
 const generateBookingNumber = () => {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
@@ -59,15 +60,15 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
   try {
-    const { route_id, travel_date, passenger_count, passengers, selected_seats, total_amount } = req.body;
+    const { route_id, travel_date, passenger_count, passengers, selected_seats, total_amount, contact_name, contact_phone } = req.body;
     if (!route_id || !travel_date || !passenger_count) {
       return res.status(400).json({ error: 'Champs requis manquants' });
     }
     const booking_number = generateBookingNumber();
     const now = new Date().toISOString();
     const [result] = await db.query(
-      'INSERT INTO reservations (booking_number, route_id, travel_date, passenger_count, total_amount, status, passengers, selected_seats, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-      [booking_number, route_id, travel_date, passenger_count, total_amount || 0, 'pending', passengers || '', selected_seats || '', now, now]
+      'INSERT INTO reservations (booking_number, route_id, travel_date, passenger_count, total_amount, status, passengers, selected_seats, contact_name, contact_phone, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      [booking_number, route_id, travel_date, passenger_count, total_amount || 0, 'pending', passengers || '', selected_seats || '', contact_name || '', contact_phone || '', now, now]
     );
     const [rows] = await db.query('SELECT * FROM reservations WHERE id = ?', [result.insertId]);
     res.status(201).json(rows[0]);
@@ -77,7 +78,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.patch('/:id/status', async (req, res) => {
+router.patch('/:id/status', requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     if (!['confirmed', 'pending', 'cancelled'].includes(status)) {
@@ -92,7 +93,7 @@ router.patch('/:id/status', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await db.query('DELETE FROM reservations WHERE id = ?', [req.params.id]);
     res.json({ message: 'Réservation supprimée' });

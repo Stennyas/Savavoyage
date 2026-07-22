@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { db } = require('../config/database');
+const { requireAdmin } = require('../middleware/auth');
 
 router.get('/', async (req, res) => {
   try {
@@ -23,7 +24,7 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', requireAdmin, async (req, res) => {
   try {
     const { departure, arrival, time, price, seats, active } = req.body;
     if (!departure || !arrival || !time || !price) {
@@ -41,7 +42,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', requireAdmin, async (req, res) => {
   try {
     const { departure, arrival, time, price, seats, active } = req.body;
     await db.query(
@@ -56,7 +57,7 @@ router.put('/:id', async (req, res) => {
   }
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', requireAdmin, async (req, res) => {
   try {
     await db.query('DELETE FROM trajets WHERE id = ?', [req.params.id]);
     res.json({ message: 'Trajet supprimé' });

@@ -4,6 +4,7 @@ const session = require('express-session');
 const bcrypt = require('bcryptjs');
 const path = require('path');
 const { db, initializeDatabase, getMode } = require('./config/database');
+const { requireAdmin } = require('./middleware/auth');
 const trajetsRouter = require('./routes/trajets');
 const reservationsRouter = require('./routes/reservations');
 
@@ -21,13 +22,6 @@ app.use(session({
 }));
 
 app.use(express.static(path.join(__dirname, '../frontend')));
-
-function requireAdmin(req, res, next) {
-  if (!req.session || !req.session.admin) {
-    return res.status(401).json({ error: 'Accès non autorisé' });
-  }
-  next();
-}
 
 app.use('/api/trajets', trajetsRouter);
 app.use('/api/reservations', reservationsRouter);

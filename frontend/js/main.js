@@ -1,4 +1,4 @@
-const API = '/api';
+const API = 'https://savavoyage.onrender.com/api';
 
 let trajets = [];
 let selectedRoute = null;
@@ -39,21 +39,23 @@ function renderRoutes(list) {
   const grid = document.getElementById('routesGrid');
   if (!grid) return;
   if (list.length === 0) {
-    grid.innerHTML = '<p style="color:var(--text-muted)">Aucun trajet disponible.</p>';
+    grid.innerHTML = '<div class="col-12"><p class="text-muted text-center mb-0">Aucun trajet disponible.</p></div>';
     return;
   }
   grid.innerHTML = list
     .map(
       (t) => `
-      <div class="route-card ${t.active ? '' : 'inactive'}">
-        <div class="route-head">
-          <span>${t.departure}</span>
-          <span class="route-arrow">→</span>
-          <span>${t.arrival}</span>
-        </div>
-        <div class="route-meta">
-          <span>🕘 ${t.time}</span>
-          <span class="route-price">${Number(t.price).toLocaleString('fr-FR')} Ar</span>
+      <div class="col-md-4">
+        <div class="route-card ${t.active ? '' : 'inactive'}">
+          <div class="route-head">
+            <span>${t.departure}</span>
+            <span class="route-arrow">→</span>
+            <span>${t.arrival}</span>
+          </div>
+          <div class="route-meta">
+            <span>🕘 ${t.time}</span>
+            <span class="route-price">${Number(t.price).toLocaleString('fr-FR')} Ar</span>
+          </div>
         </div>
       </div>`
     )
@@ -79,12 +81,6 @@ function setupBooking() {
 
   routeSelect.addEventListener('change', onRouteChange);
   passengerCount.addEventListener('change', () => updateSeatsNeeded());
-  document.getElementById('routeSelect');
-
-  const form = document.querySelector('.booking-form');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-  });
   const confirmBtn = document.getElementById('confirmBtn');
   confirmBtn.addEventListener('click', confirmBooking);
 
@@ -201,6 +197,11 @@ async function confirmBooking() {
   const count = Number(document.getElementById('passengerCount').value);
   if (selectedSeats.length !== count) return alert(`Sélectionnez ${count} siège(s).`);
   const passengerInfo = document.getElementById('passengerInfo').value.trim();
+  const contactName = document.getElementById('contactName').value.trim();
+  const contactPhone = document.getElementById('contactPhone').value.trim();
+
+  if (!contactName) return alert('Veuillez saisir le nom du contact.');
+  if (!contactPhone) return alert('Veuillez saisir le numéro de téléphone du contact.');
 
   try {
     const res = await api(`${API}/reservations`, {
@@ -211,7 +212,9 @@ async function confirmBooking() {
         passenger_count: count,
         passengers: passengerInfo,
         selected_seats: selectedSeats.join(','),
-        total_amount: Number(selectedRoute.price) * count
+        total_amount: Number(selectedRoute.price) * count,
+        contact_name: contactName,
+        contact_phone: contactPhone,
       })
     });
     document.getElementById('bookingNumber').textContent = res.booking_number;
@@ -226,6 +229,8 @@ function resetBooking() {
   document.getElementById('routeSelect').value = '';
   document.getElementById('travelDate').value = '';
   document.getElementById('passengerInfo').value = '';
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactPhone').value = '';
   document.getElementById('passengerCount').value = '1';
   selectedRoute = null;
   selectedSeats = [];
@@ -234,10 +239,14 @@ function resetBooking() {
 }
 
 function openModal() {
-  document.getElementById('confirmModal').classList.add('open');
+  const modalEl = document.getElementById('confirmModal');
+  const modal = new bootstrap.Modal(modalEl);
+  modal.show();
 }
 function closeModal() {
-  document.getElementById('confirmModal').classList.remove('open');
+  const modalEl = document.getElementById('confirmModal');
+  const modal = bootstrap.Modal.getInstance(modalEl);
+  if (modal) modal.hide();
 }
 
 function initLogin() {
@@ -259,7 +268,7 @@ function initLogin() {
       });
       window.location.href = '/admin';
     } catch (err) {
-      alertBox.innerHTML = `<div class="alert alert-error">${err.message}</div>`;
+      alertBox.innerHTML = `<div class="alert alert-danger py-2 px-3">${err.message}</div>`;
       btn.disabled = false;
     }
   });

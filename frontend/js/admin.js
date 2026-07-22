@@ -1,4 +1,4 @@
-const API = '/api';
+const API = 'https://savavoyage.onrender.com/api';
 
 let allReservations = [];
 let allTrajets = [];
@@ -18,7 +18,7 @@ function switchTab(tab) {
   ['dashboard', 'routes', 'reservations'].forEach((t) => {
     document.getElementById(`tab${t.charAt(0).toUpperCase() + t.slice(1)}`).style.display = t === tab ? 'block' : 'none';
   });
-  document.querySelectorAll('.nav-links a[data-tab]').forEach((a) => {
+  document.querySelectorAll('.navbar-nav a[data-tab]').forEach((a) => {
     a.classList.toggle('active', a.dataset.tab === tab);
   });
   if (tab === 'dashboard') loadStats();
@@ -58,10 +58,38 @@ async function loadStats() {
     const occupancy = stats.totalSeats ? Math.round((stats.totals.passengers / stats.totalSeats) * 100) : 0;
 
     grid.innerHTML = `
-      <div class="stat-card"><div class="stat-value">${stats.totals.count}</div><div class="stat-label">Réservations totales</div></div>
-      <div class="stat-card"><div class="stat-value">${revenue.toLocaleString('fr-FR')} Ar</div><div class="stat-label">Revenus</div></div>
-      <div class="stat-card"><div class="stat-value">${occupancy}%</div><div class="stat-label">Taux d'occupation</div></div>
-      <div class="stat-card"><div class="stat-value">${stats.totals.passengers || 0}</div><div class="stat-label">Passagers transportés</div></div>
+      <div class="col-md-6 col-lg-3 mb-3">
+        <div class="card border rounded-4 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-6 fw-bold" style="color:var(--primary-dark);">${stats.totals.count}</div>
+            <div class="text-muted small">Réservations totales</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-3">
+        <div class="card border rounded-4 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-6 fw-bold" style="color:var(--primary-dark);">${revenue.toLocaleString('fr-FR')} Ar</div>
+            <div class="text-muted small">Revenus</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-3">
+        <div class="card border rounded-4 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-6 fw-bold" style="color:var(--primary-dark);">${occupancy}%</div>
+            <div class="text-muted small">Taux d'occupation</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6 col-lg-3 mb-3">
+        <div class="card border rounded-4 shadow-sm h-100">
+          <div class="card-body text-center">
+            <div class="display-6 fw-bold" style="color:var(--primary-dark);">${stats.totals.passengers || 0}</div>
+            <div class="text-muted small">Passagers transportés</div>
+          </div>
+        </div>
+      </div>
     `;
 
     document.getElementById('qsConfirmed').textContent = confirmed;
@@ -71,12 +99,21 @@ async function loadStats() {
 
     const statusChart = document.getElementById('statusChart');
     statusChart.innerHTML = `
-      <div class="summary-item"><span class="label">Confirmées</span><span class="value">${confirmed}</span></div>
-      <div class="summary-item"><span class="label">En attente</span><span class="value">${pending}</span></div>
-      <div class="summary-item"><span class="label">Annulées</span><span class="value">${cancelled}</span></div>
+      <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+        <span class="text-muted">Confirmées</span>
+        <span class="fw-medium">${confirmed}</span>
+      </div>
+      <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+        <span class="text-muted">En attente</span>
+        <span class="fw-medium">${pending}</span>
+      </div>
+      <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+        <span class="text-muted">Annulées</span>
+        <span class="fw-medium">${cancelled}</span>
+      </div>
     `;
   } catch (err) {
-    grid.innerHTML = `<div class="alert alert-error">${err.message}</div>`;
+    grid.innerHTML = `<div class="alert alert-danger py-2 px-3">${err.message}</div>`;
   }
 }
 
@@ -98,8 +135,8 @@ async function loadRoutesAdmin() {
             <span class="badge ${t.active ? 'badge-confirmed' : 'badge-cancelled'}">${t.active ? 'Actif' : 'Inactif'}</span>
           </div>
           <div class="row-actions">
-            <button class="btn btn-sm btn-outline" onclick="editRoute(${t.id})">Modifier</button>
-            <button class="btn btn-sm btn-outline" onclick="deleteRoute(${t.id})">Supprimer</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="editRoute(${t.id})">Modifier</button>
+            <button class="btn btn-sm btn-outline-secondary" onclick="deleteRoute(${t.id})">Supprimer</button>
           </div>
         </div>`
         )
@@ -107,7 +144,7 @@ async function loadRoutesAdmin() {
     }
     populateRouteFilter(allTrajets);
   } catch (err) {
-    list.innerHTML = `<div class="alert alert-error">${err.message}</div>`;
+    list.innerHTML = `<div class="alert alert-danger py-2 px-3">${err.message}</div>`;
   }
 }
 
@@ -119,19 +156,21 @@ function populateRouteFilter(list) {
 }
 
 function openRouteModal() {
-  document.getElementById('routeModalTitle').textContent = 'Nouveau trajet';
+  document.getElementById('routeModalLabel').textContent = 'Nouveau trajet';
   document.getElementById('routeForm').reset();
   document.getElementById('routeId').value = '';
-  document.getElementById('routeModal').classList.add('open');
+  const modal = new bootstrap.Modal(document.getElementById('routeModal'));
+  modal.show();
 }
 function closeRouteModal() {
-  document.getElementById('routeModal').classList.remove('open');
+  const modal = bootstrap.Modal.getInstance(document.getElementById('routeModal'));
+  if (modal) modal.hide();
 }
 
 function editRoute(id) {
   const t = allTrajets.find((x) => x.id === id);
   if (!t) return;
-  document.getElementById('routeModalTitle').textContent = 'Modifier le trajet';
+  document.getElementById('routeModalLabel').textContent = 'Modifier le trajet';
   document.getElementById('routeId').value = t.id;
   document.getElementById('routeDeparture').value = t.departure;
   document.getElementById('routeArrival').value = t.arrival;
@@ -139,7 +178,8 @@ function editRoute(id) {
   document.getElementById('routePrice').value = t.price;
   document.getElementById('routeSeats').value = t.seats;
   document.getElementById('routeActive').value = String(t.active);
-  document.getElementById('routeModal').classList.add('open');
+  const modal = new bootstrap.Modal(document.getElementById('routeModal'));
+  modal.show();
 }
 
 async function deleteRoute(id) {
@@ -182,7 +222,7 @@ async function loadReservations() {
     allReservations = await api(`${API}/reservations`);
     filterReservations();
   } catch (err) {
-    list.innerHTML = `<div class="alert alert-error">${err.message}</div>`;
+    list.innerHTML = `<div class="alert alert-danger py-2 px-3">${err.message}</div>`;
   }
 }
 
@@ -215,10 +255,12 @@ function filterReservations() {
           <span style="color:var(--text-muted)">📅 ${r.travel_date}</span>
           <span style="color:var(--text-muted)">👤 ${r.passenger_count}</span>
           <span class="badge badge-${r.status}">${r.status}</span>
+          ${r.contact_phone ? `<span style="color:var(--text-muted); font-size:0.85rem;">📞 ${r.contact_phone}</span>` : ''}
         </div>
         <div class="row-actions">
-          <button class="btn btn-sm btn-outline" onclick="openStatusModal(${r.id}, '${r.booking_number}')">Statut</button>
-          <button class="btn btn-sm btn-outline" onclick="deleteReservation(${r.id})">Supprimer</button>
+          <button class="btn btn-sm btn-outline-secondary" onclick="viewReservation(${r.id})">Détails</button>
+          <button class="btn btn-sm btn-outline-secondary" onclick="openStatusModal(${r.id}, '${r.booking_number}')">Statut</button>
+          <button class="btn btn-sm btn-outline-secondary" onclick="deleteReservation(${r.id})">Supprimer</button>
         </div>
       </div>`
     )
@@ -228,10 +270,12 @@ function filterReservations() {
 function openStatusModal(id, num) {
   document.getElementById('statusBookingId').value = id;
   document.getElementById('statusBookingNum').value = num;
-  document.getElementById('statusModal').classList.add('open');
+  const modal = new bootstrap.Modal(document.getElementById('statusModal'));
+  modal.show();
 }
 function closeStatusModal() {
-  document.getElementById('statusModal').classList.remove('open');
+  const modal = bootstrap.Modal.getInstance(document.getElementById('statusModal'));
+  if (modal) modal.hide();
 }
 
 async function updateStatus() {
@@ -256,11 +300,113 @@ async function deleteReservation(id) {
   }
 }
 
+function closeDetailModal() {
+  const modal = bootstrap.Modal.getInstance(document.getElementById('detailModal'));
+  if (modal) modal.hide();
+}
+
+async function viewReservation(id) {
+  const modal = document.getElementById('detailModal');
+  const content = document.getElementById('detailContent');
+  const bsModal = new bootstrap.Modal(modal);
+  bsModal.show();
+  content.innerHTML = '<div class="text-center py-4 text-muted"><div class="spinner-border text-primary mb-3" role="status"><span class="visually-hidden">Chargement...</span></div><p>Chargement...</p></div>';
+
+  try {
+    const r = await api(`${API}/reservations/${id}`);
+    const trajet = allTrajets.find(t => t.id === r.route_id);
+    content.innerHTML = `
+      <div class="d-flex flex-column" style="gap:16px;">
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Réservation</span>
+              <span class="fw-medium"><strong>${r.booking_number}</strong></span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Statut</span>
+              <span class="badge badge-${r.status}">${r.status}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Trajet</span>
+              <span class="fw-medium">${trajet ? trajet.departure + ' → ' + trajet.arrival : '—'}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Date</span>
+              <span class="fw-medium">${r.travel_date}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Passagers</span>
+              <span class="fw-medium">${r.passenger_count}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Montant</span>
+              <span class="fw-medium">${Number(r.total_amount).toLocaleString('fr-FR')} Ar</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-1" style="border:none;border-top:1px solid var(--border);">
+
+        <h6 class="fw-semibold">&#x1F4DE; Contact client</h6>
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Nom</span>
+              <span class="fw-medium">${r.contact_name || '—'}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Téléphone</span>
+              <span class="fw-medium">${r.contact_phone || '—'}</span>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-1" style="border:none;border-top:1px solid var(--border);">
+
+        <h6 class="fw-semibold">&#x1F465; Passagers</h6>
+        <div style="white-space:pre-wrap; font-size:0.9rem; color:var(--text);">${r.passengers || 'Aucune information'}</div>
+
+        <hr class="my-1" style="border:none;border-top:1px solid var(--border);">
+
+        <div class="row g-3">
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Sièges</span>
+              <span class="fw-medium">${r.selected_seats || '—'}</span>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+              <span class="text-muted small">Créée le</span>
+              <span class="fw-medium">${r.created_at ? new Date(r.created_at).toLocaleString('fr-FR') : '—'}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+  } catch (err) {
+    content.innerHTML = `<div class="alert alert-danger py-2 px-3">${err.message}</div>`;
+  }
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-  if (!document.querySelector('.admin-page')) return;
+  if (!document.getElementById('tabDashboard')) return;
   const ok = await checkAuth();
   if (!ok) return;
-  document.querySelectorAll('.nav-links a[data-tab]').forEach((a) => {
+  document.querySelectorAll('.navbar-nav a[data-tab]').forEach((a) => {
     a.addEventListener('click', (e) => {
       e.preventDefault();
       switchTab(a.dataset.tab);

@@ -7,195 +7,244 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <!-- Navigation -->
-  <nav class="navbar">
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
-      <a href="/" class="nav-brand">
-        <div class="logo-icon">&#x1F68C;</div>
+      <a href="/" class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-5">
+        <span style="font-size:1.4rem;">&#x1F68C;</span>
         Sava<span class="accent">Voyages</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="/" class="active">Accueil</a></li>
-        <li><a href="/index.html#booking">Réserver</a></li>
-        <li><a href="/index.html#trajets">Trajets</a></li>
-      </ul>
-      <div class="nav-auth" id="navAuth">
-        <a href="/login.html" class="btn btn-sm btn-primary">Connexion</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+          <li class="nav-item">
+            <a href="/" class="nav-link active">Accueil</a>
+          </li>
+          <li class="nav-item">
+            <a href="/index.html#booking" class="nav-link">Réserver</a>
+          </li>
+          <li class="nav-item">
+            <a href="/index.html#trajets" class="nav-link">Trajets</a>
+          </li>
+        </ul>
+        <div class="nav-auth d-flex align-items-center gap-2" id="navAuth">
+          <a href="/login.html" class="btn btn-sm btn-primary">Connexion</a>
+        </div>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-badge">&#x1F68C; Voyagez en toute sérénité</div>
-    <h1>Votre voyage dans la région<br><span class="highlight">Sava</span> commence ici</h1>
-    <p>Réservez votre place en quelques clics pour vos déplacements entre Sambava, Vohemar, Antalaha et Andapa. Confort, ponctualité et sécurité garantis.</p>
-    <div class="hero-actions">
-      <a href="#booking" class="btn btn-primary">Réserver maintenant &#x2192;</a>
-      <a href="#trajets" class="btn btn-outline">Voir les trajets</a>
+  <section class="hero text-center py-5" style="background: linear-gradient(180deg, #f0fdfa 0%, #ffffff 100%);">
+    <div class="container">
+      <div class="d-inline-block px-3 py-1 rounded-pill bg-teal-light text-teal-dark fw-semibold small mb-3" style="background:#ccfbf1; color:var(--primary-dark);">
+        &#x1F68C; Voyagez en toute sérénité
+      </div>
+      <h1 class="display-4 fw-bold mb-3" style="font-family:var(--font-display); line-height:1.15;">
+        Votre voyage dans la région<br><span style="color:var(--primary);">Sava</span> commence ici
+      </h1>
+      <p class="lead text-muted mx-auto mb-4" style="max-width:620px;">
+        Réservez votre place en quelques clics pour vos déplacements entre Sambava, Vohemar, Antalaha et Andapa. Confort, ponctualité et sécurité garantis.
+      </p>
+      <div class="d-flex gap-3 justify-content-center flex-wrap">
+        <a href="#booking" class="btn btn-primary btn-lg px-4">Réserver maintenant &#x2192;</a>
+        <a href="#trajets" class="btn btn-outline-secondary btn-lg px-4">Voir les trajets</a>
+      </div>
     </div>
   </section>
 
   <!-- Destinations -->
-  <section class="section">
+  <section class="py-5">
     <div class="container">
-      <div class="section-title">
-        <h2>Nos destinations</h2>
-        <p>Quatre villes majeures de la région Sava desservies par nos lignes régulières</p>
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="font-family:var(--font-display); font-size:2rem;">Nos destinations</h2>
+        <p class="text-muted">Quatre villes majeures de la région Sava desservies par nos lignes régulières</p>
       </div>
-      <div class="destinations-grid">
-        <div class="destination-card">
-          <div class="icon">&#x1F30A;</div>
-          <h3>Sambava</h3>
-          <p>Capitale de la vanille, porte d'entrée de la région Sava</p>
+      <div class="row g-4">
+        <div class="col-6 col-md-3">
+          <div class="destination-card text-center p-4 h-100 border rounded-4 bg-light-subtle" style="transition:transform 0.2s, box-shadow 0.2s;">
+            <div style="font-size:2rem; margin-bottom:12px;">&#x1F30A;</div>
+            <h5 class="fw-semibold">Sambava</h5>
+            <p class="text-muted small mb-0">Capitale de la vanille, porte d'entrée de la région Sava</p>
+          </div>
         </div>
-        <div class="destination-card">
-          <div class="icon">&#x2693;</div>
-          <h3>Vohemar</h3>
-          <p>Ville côtière historique au nord de Madagascar</p>
+        <div class="col-6 col-md-3">
+          <div class="destination-card text-center p-4 h-100 border rounded-4 bg-light-subtle" style="transition:transform 0.2s, box-shadow 0.2s;">
+            <div style="font-size:2rem; margin-bottom:12px;">&#x2693;</div>
+            <h5 class="fw-semibold">Vohemar</h5>
+            <p class="text-muted small mb-0">Ville côtière historique au nord de Madagascar</p>
+          </div>
         </div>
-        <div class="destination-card">
-          <div class="icon">&#x1F334;</div>
-          <h3>Antalaha</h3>
-          <p>Belle ville balnéaire bordée de cocotiers</p>
+        <div class="col-6 col-md-3">
+          <div class="destination-card text-center p-4 h-100 border rounded-4 bg-light-subtle" style="transition:transform 0.2s, box-shadow 0.2s;">
+            <div style="font-size:2rem; margin-bottom:12px;">&#x1F334;</div>
+            <h5 class="fw-semibold">Antalaha</h5>
+            <p class="text-muted small mb-0">Belle ville balnéaire bordée de cocotiers</p>
+          </div>
         </div>
-        <div class="destination-card">
-          <div class="icon">&#x1F3DE;</div>
-          <h3>Andapa</h3>
-          <p>Ville au c&#339;ur des montagnes de la Sava</p>
+        <div class="col-6 col-md-3">
+          <div class="destination-card text-center p-4 h-100 border rounded-4 bg-light-subtle" style="transition:transform 0.2s, box-shadow 0.2s;">
+            <div style="font-size:2rem; margin-bottom:12px;">&#x1F3DE;</div>
+            <h5 class="fw-semibold">Andapa</h5>
+            <p class="text-muted small mb-0">Ville au cœur des montagnes de la Sava</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Trajets disponibles -->
-  <section class="section routes-section" id="trajets">
+  <section class="py-5 bg-light" id="trajets">
     <div class="container">
-      <div class="section-title">
-        <h2>Trajets disponibles</h2>
-        <p>Consultez nos lignes et leurs horaires</p>
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="font-family:var(--font-display); font-size:2rem;">Trajets disponibles</h2>
+        <p class="text-muted">Consultez nos lignes et leurs horaires</p>
       </div>
-      <div class="routes-grid" id="routesGrid">
-        <div class="loading">
-          <div class="spinner"></div>
-          <p>Chargement des trajets...</p>
+      <div class="row g-4" id="routesGrid">
+        <div class="col-12">
+          <div class="text-center py-5 text-muted">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p>Chargement des trajets...</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
   <!-- Réservation -->
-  <section class="section" id="booking">
+  <section class="py-5" id="booking">
     <div class="container">
-      <div class="booking-page">
-        <div class="section-title">
-          <h2>Réserver un voyage</h2>
-          <p>Choisissez votre trajet, votre date et vos passagers</p>
-        </div>
-        <div class="booking-layout">
-          <div class="booking-form">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold" style="font-family:var(--font-display); font-size:2rem;">Réserver un voyage</h2>
+        <p class="text-muted">Choisissez votre trajet, votre date et vos passagers</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-lg-8">
+          <div class="d-flex flex-column gap-4">
             <!-- Sélection du trajet -->
-            <div class="card">
-              <div class="card-header">
-                <h3>&#x1F4CD; Sélection du trajet</h3>
-              </div>
-              <div class="form-group">
-                <select class="form-control" id="routeSelect">
+            <div class="card border rounded-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title fw-semibold mb-3">&#x1F4CD; Sélection du trajet</h5>
+                <select class="form-select" id="routeSelect">
                   <option value="">Choisir un trajet...</option>
                 </select>
               </div>
             </div>
 
             <!-- Date et passagers -->
-            <div class="card">
-              <div class="form-row">
-                <div class="form-group">
-                  <label>&#x1F4C5; Date de voyage</label>
-                  <input type="date" class="form-control" id="travelDate">
+            <div class="card border rounded-4 shadow-sm">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small">&#x1F4C5; Date de voyage</label>
+                    <input type="date" class="form-control" id="travelDate">
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small">&#x1F465; Passagers</label>
+                    <select class="form-select" id="passengerCount">
+                      <option value="1">1 passager</option>
+                      <option value="2">2 passagers</option>
+                      <option value="3">3 passagers</option>
+                      <option value="4">4 passagers</option>
+                      <option value="5">5 passagers</option>
+                      <option value="6">6 passagers</option>
+                      <option value="7">7 passagers</option>
+                      <option value="8">8 passagers</option>
+                      <option value="9">9 passagers</option>
+                      <option value="10">10 passagers</option>
+                    </select>
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label>&#x1F465; Passagers</label>
-                  <select class="form-control" id="passengerCount">
-                    <option value="1">1 passager</option>
-                    <option value="2">2 passagers</option>
-                    <option value="3">3 passagers</option>
-                    <option value="4">4 passagers</option>
-                    <option value="5">5 passagers</option>
-                    <option value="6">6 passagers</option>
-                    <option value="7">7 passagers</option>
-                    <option value="8">8 passagers</option>
-                    <option value="9">9 passagers</option>
-                    <option value="10">10 passagers</option>
-                  </select>
+              </div>
+            </div>
+
+            <!-- Contact du client -->
+            <div class="card border rounded-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title fw-semibold mb-3">&#x1F4DE; Contact du client</h5>
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small">Nom du contact</label>
+                    <input type="text" class="form-control" id="contactName" placeholder="Jean Rakoto" required>
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label fw-semibold text-muted small">Téléphone</label>
+                    <input type="tel" class="form-control" id="contactPhone" placeholder="034 12 345 67" required>
+                  </div>
                 </div>
               </div>
             </div>
 
             <!-- Informations passagers -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Informations des passagers</h3>
-              </div>
-              <div class="form-group">
-                <textarea class="form-control" id="passengerInfo" placeholder="Nom et prénom de chaque passager (un par ligne)
-Exemple: Jean Rakoto">
-</textarea>
+            <div class="card border rounded-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title fw-semibold mb-3">Informations des passagers</h5>
+                <textarea class="form-control" id="passengerInfo" rows="4" placeholder="Nom et prénom de chaque passager (un par ligne)
+Exemple: Jean Rakoto"></textarea>
               </div>
             </div>
 
             <!-- Sélection des sièges -->
-            <div class="card">
-              <div class="card-header">
-                <h3>&#x1F4BA; Sélection des sièges</h3>
-              </div>
-              <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:16px;">
-                Sélectionnez <span id="seatsNeeded">1</span> siège(s) pour votre réservation
-              </p>
-              <div class="seat-map" id="seatMap">
-                <!-- Seats will be generated by JS -->
-              </div>
-              <div class="seat-legend">
-                <div class="item"><div class="dot available"></div> Disponible</div>
-                <div class="item"><div class="dot selected-dot"></div> Sélectionné</div>
-                <div class="item"><div class="dot occupied-dot"></div> Occupé</div>
+            <div class="card border rounded-4 shadow-sm">
+              <div class="card-body">
+                <h5 class="card-title fw-semibold mb-3">&#x1F4BA; Sélection des sièges</h5>
+                <p class="text-muted small mb-3">
+                  Sélectionnez <span class="fw-bold" id="seatsNeeded">1</span> siège(s) pour votre réservation
+                </p>
+                <div class="seat-map" id="seatMap">
+                  <!-- Seats will be generated by JS -->
+                </div>
+                <div class="d-flex gap-3 small text-muted mt-3">
+                  <div><span class="d-inline-block" style="width:12px;height:12px;border-radius:3px;background:var(--bg-alt);border:1px solid var(--border);margin-right:6px;vertical-align:middle;"></span> Disponible</div>
+                  <div><span class="d-inline-block" style="width:12px;height:12px;border-radius:3px;background:var(--primary);margin-right:6px;vertical-align:middle;"></span> Sélectionné</div>
+                  <div><span class="d-inline-block" style="width:12px;height:12px;border-radius:3px;background:#cbd5e1;margin-right:6px;vertical-align:middle;"></span> Occupé</div>
+                </div>
               </div>
             </div>
 
-            <button class="btn btn-primary btn-block" id="confirmBtn" onclick="confirmBooking()">
+            <button class="btn btn-primary btn-lg w-100" id="confirmBtn" onclick="confirmBooking()">
               Confirmer la réservation &#x2192;
             </button>
           </div>
+        </div>
 
-          <!-- Récapitulatif -->
-          <div class="booking-summary">
-            <div class="card">
-              <h3 style="font-size:1.1rem; font-weight:600; margin-bottom:16px;">Récapitulatif</h3>
-              <div class="summary-item">
-                <span class="label">Trajet</span>
-                <span class="value" id="summaryRoute">—</span>
+        <!-- Récapitulatif -->
+        <div class="col-lg-4">
+          <div class="card border rounded-4 shadow-sm sticky-top" style="top:90px;">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-3" style="font-size:1.1rem;">Récapitulatif</h5>
+              <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                <span class="text-muted">Trajet</span>
+                <span class="fw-medium" id="summaryRoute">—</span>
               </div>
-              <div class="summary-item">
-                <span class="label">Date</span>
-                <span class="value" id="summaryDate">—</span>
+              <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                <span class="text-muted">Date</span>
+                <span class="fw-medium" id="summaryDate">—</span>
               </div>
-              <div class="summary-item">
-                <span class="label">Passagers</span>
-                <span class="value" id="summaryPassengers">1</span>
+              <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                <span class="text-muted">Passagers</span>
+                <span class="fw-medium" id="summaryPassengers">1</span>
               </div>
-              <div class="summary-item">
-                <span class="label">Sièges</span>
-                <span class="value" id="summarySeats">—</span>
+              <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                <span class="text-muted">Sièges</span>
+                <span class="fw-medium" id="summarySeats">—</span>
               </div>
-              <div class="summary-item">
-                <span class="label">Prix unitaire</span>
-                <span class="value" id="summaryPrice">—</span>
+              <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                <span class="text-muted">Prix unitaire</span>
+                <span class="fw-medium" id="summaryPrice">—</span>
               </div>
-              <div class="summary-total">
-                <span class="label">Total</span>
-                <span class="value" id="summaryTotal">0 Ar</span>
+              <div class="d-flex justify-content-between pt-3 fw-bold fs-5">
+                <span>Total</span>
+                <span style="color:var(--primary-dark);" id="summaryTotal">0 Ar</span>
               </div>
             </div>
           </div>
@@ -205,38 +254,40 @@ Exemple: Jean Rakoto">
   </section>
 
   <!-- Footer -->
-  <footer class="footer">
-    <h3>SavaVoyages</h3>
-    <p>Votre partenaire de transport dans la région Sava</p>
-    <div class="footer-links">
-      <a href="/">Accueil</a>
-      <a href="#booking">Réserver</a>
-      <a href="#trajets">Trajets</a>
-      <a href="/login.html">Admin</a>
+  <footer class="text-center py-5 border-top text-muted mt-5">
+    <h4 class="fw-bold text-dark">SavaVoyages</h4>
+    <p class="mb-0">Votre partenaire de transport dans la région Sava</p>
+    <div class="d-flex gap-3 justify-content-center my-3">
+      <a href="/" class="text-muted text-decoration-none">Accueil</a>
+      <a href="#booking" class="text-muted text-decoration-none">Réserver</a>
+      <a href="#trajets" class="text-muted text-decoration-none">Trajets</a>
+      <a href="/login.html" class="text-muted text-decoration-none">Admin</a>
     </div>
-    <p style="margin-top:20px; font-size:0.8rem; opacity:0.6;">&copy; 2024 Sava Voyages. Tous droits réservés.</p>
+    <p class="small mt-4 opacity-50 mb-0">&copy; 2024 Sava Voyages. Tous droits réservés.</p>
   </footer>
 
-  <!-- Confirmation Modal -->
-  <div class="modal-overlay" id="confirmModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Réservation confirmée</h3>
-        <button class="modal-close" onclick="closeModal()">&#x2715;</button>
-      </div>
-      <div id="confirmContent">
-        <div class="booking-number" id="bookingNumber">SV-XXXXXXXX</div>
-        <div class="alert alert-success">Votre réservation a été enregistrée avec succès.</div>
-        <p style="font-size:0.85rem; color:var(--text-muted); margin-top:12px;">
-          Conservez ce numéro de réservation pour toute référence.
-        </p>
-        <button class="btn btn-primary btn-block" style="margin-top:16px;" onclick="closeModal()">
-          Fermer
-        </button>
+  <!-- Confirmation Modal (Bootstrap) -->
+  <div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="confirmModalLabel">Réservation confirmée</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body text-center" id="confirmContent">
+          <div class="fs-3 fw-bold text-primary mb-3" id="bookingNumber">SV-XXXXXXXX</div>
+          <div class="alert alert-success py-2 px-3 mb-3 d-inline-block">Votre réservation a été enregistrée avec succès.</div>
+          <p class="text-muted small mt-2">Conservez ce numéro de réservation pour toute référence.</p>
+        </div>
+        <div class="modal-footer border-0 justify-content-center pt-0">
+          <button type="button" class="btn btn-primary px-4" data-bs-dismiss="modal">Fermer</button>
+        </div>
       </div>
     </div>
   </div>
 
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/main.js"></script>
 </body>
 </html>

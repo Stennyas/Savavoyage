@@ -7,196 +7,272 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
   <!-- Navigation Admin -->
-  <nav class="navbar">
+  <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
     <div class="container">
-      <a href="/admin.html" class="nav-brand">
-        <div class="logo-icon">&#x1F68C;</div>
+      <a href="/admin.html" class="navbar-brand d-flex align-items-center gap-2 fw-bold fs-5">
+        <span style="font-size:1.4rem;">&#x1F68C;</span>
         Sava<span class="accent">Voyages</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#" class="active" data-tab="dashboard">Dashboard</a></li>
-        <li><a href="#" data-tab="routes">Trajets</a></li>
-        <li><a href="#" data-tab="reservations">Réservations</a></li>
-      </ul>
-      <div class="nav-auth">
-        <span class="user-name" id="adminName">Admin</span>
-        <button class="btn btn-sm btn-outline" onclick="logoutAdmin()">Déconnexion</button>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#adminNav" aria-controls="adminNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="adminNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-2">
+          <li class="nav-item">
+            <a href="#" class="nav-link active" data-tab="dashboard">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="routes">Trajets</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" data-tab="reservations">Réservations</a>
+          </li>
+        </ul>
+        <div class="d-flex align-items-center gap-2">
+          <span class="fw-semibold small text-muted" id="adminName">Admin</span>
+          <button class="btn btn-sm btn-outline-secondary" onclick="logoutAdmin()">Déconnexion</button>
+        </div>
       </div>
     </div>
   </nav>
 
   <!-- Page Admin -->
-  <div class="container">
-    <div class="admin-page">
-      
-      <!-- Dashboard Tab -->
-      <div id="tabDashboard" class="fade-in">
-        <div class="admin-header">
-          <div>
-            <h1>Dashboard Administrateur</h1>
-            <p style="color:var(--text-muted);">Vue d'ensemble de votre activité</p>
+  <div class="container py-4">
+    
+    <!-- Dashboard Tab -->
+    <div id="tabDashboard">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <h1 class="fw-bold" style="font-family:var(--font-display); font-size:1.8rem;">Dashboard Administrateur</h1>
+          <p class="text-muted mb-0">Vue d'ensemble de votre activité</p>
+        </div>
+        <div class="d-flex gap-2">
+          <button class="btn btn-outline-secondary btn-sm" onclick="switchTab('routes')">Gérer les trajets</button>
+          <button class="btn btn-primary btn-sm" onclick="switchTab('reservations')">Réservations</button>
+        </div>
+      </div>
+
+      <div class="row g-3" id="statsGrid">
+        <div class="col-12 text-center py-5 text-muted">
+          <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Chargement...</span>
           </div>
-          <div style="display:flex; gap:8px;">
-            <button class="btn btn-outline btn-sm" onclick="switchTab('routes')">Gérer les trajets</button>
-            <button class="btn btn-primary btn-sm" onclick="switchTab('reservations')">Réservations</button>
+          <p>Chargement...</p>
+        </div>
+      </div>
+
+      <div class="row g-3 mt-2">
+        <div class="col-md-6">
+          <div class="card border rounded-4 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-3" style="font-family:var(--font-body);">Répartition par statut</h5>
+              <div id="statusChart" class="text-center py-4 text-muted">Aucune donnée</div>
+            </div>
           </div>
         </div>
-
-        <div class="stats-grid" id="statsGrid">
-          <div class="loading"><div class="spinner"></div><p>Chargement...</p></div>
-        </div>
-
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:20px;">
-          <div class="card">
-            <h3 style="font-family:var(--font-body); font-weight:600; margin-bottom:16px;">Répartition par statut</h3>
-            <div id="statusChart" style="text-align:center; padding:20px; color:var(--text-muted);">Aucune donnée</div>
-          </div>
-          <div class="card">
-            <h3 style="font-family:var(--font-body); font-weight:600; margin-bottom:16px;">Statistiques rapides</h3>
-            <div id="quickStats">
-              <div class="summary-item"><span class="label">Réservations confirmées</span><span class="value" id="qsConfirmed">0</span></div>
-              <div class="summary-item"><span class="label">En attente</span><span class="value" id="qsPending">0</span></div>
-              <div class="summary-item"><span class="label">Annulées</span><span class="value" id="qsCancelled">0</span></div>
-              <div class="summary-item"><span class="label">Total passagers transportés</span><span class="value" id="qsPassengers">0</span></div>
+        <div class="col-md-6">
+          <div class="card border rounded-4 shadow-sm h-100">
+            <div class="card-body">
+              <h5 class="fw-semibold mb-3" style="font-family:var(--font-body);">Statistiques rapides</h5>
+              <div id="quickStats">
+                <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                  <span class="text-muted">Réservations confirmées</span>
+                  <span class="fw-medium" id="qsConfirmed">0</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                  <span class="text-muted">En attente</span>
+                  <span class="fw-medium" id="qsPending">0</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                  <span class="text-muted">Annulées</span>
+                  <span class="fw-medium" id="qsCancelled">0</span>
+                </div>
+                <div class="d-flex justify-content-between py-2 border-bottom border-dashed">
+                  <span class="text-muted">Total passagers transportés</span>
+                  <span class="fw-medium" id="qsPassengers">0</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      <!-- Routes Tab -->
-      <div id="tabRoutes" style="display:none;" class="fade-in">
-        <div class="admin-header">
-          <div>
-            <p style="font-size:0.85rem; color:var(--text-muted);">Dashboard / Trajets</p>
-            <h1>Gestion des trajets</h1>
-          </div>
-          <button class="btn btn-primary btn-sm" onclick="openRouteModal()">+ Nouveau trajet</button>
-        </div>
-
-        <div id="routesList">
-          <div class="loading"><div class="spinner"></div><p>Chargement...</p></div>
-        </div>
-      </div>
-
-      <!-- Reservations Tab -->
-      <div id="tabReservations" style="display:none;" class="fade-in">
-        <div class="admin-header">
-          <div>
-            <p style="font-size:0.85rem; color:var(--text-muted);">Dashboard / Réservations</p>
-            <h1>Gestion des réservations</h1>
-          </div>
-        </div>
-
-        <div class="filters-bar">
-          <input type="text" class="form-control" id="filterSearch" placeholder="Rechercher par numéro..." oninput="filterReservations()">
-          <select class="form-control" id="filterStatus" onchange="filterReservations()">
-            <option value="">Tous les statuts</option>
-            <option value="confirmed">Confirmé</option>
-            <option value="pending">En attente</option>
-            <option value="cancelled">Annulé</option>
-          </select>
-          <select class="form-control" id="filterRoute" onchange="filterReservations()">
-            <option value="">Tous les trajets</option>
-          </select>
-          <input type="date" class="form-control" id="filterDate" onchange="filterReservations()">
-        </div>
-
-        <div id="reservationsList">
-          <div class="loading"><div class="spinner"></div><p>Chargement...</p></div>
-        </div>
-      </div>
-
     </div>
-  </div>
 
-  <!-- Modal Nouveau/Modifier Trajet -->
-  <div class="modal-overlay" id="routeModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3 id="routeModalTitle">Nouveau trajet</h3>
-        <button class="modal-close" onclick="closeRouteModal()">&#x2715;</button>
+    <!-- Routes Tab -->
+    <div id="tabRoutes" style="display:none;">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <p class="text-muted small mb-0">Dashboard / Trajets</p>
+          <h1 class="fw-bold" style="font-family:var(--font-display); font-size:1.8rem;">Gestion des trajets</h1>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="openRouteModal()">+ Nouveau trajet</button>
       </div>
-      <form id="routeForm">
-        <input type="hidden" id="routeId">
-        <div class="form-group">
-          <label>Ville de départ</label>
-          <select class="form-control" id="routeDeparture" required>
-            <option value="Sambava">Sambava</option>
-            <option value="Vohemar">Vohemar</option>
-            <option value="Antalaha">Antalaha</option>
-            <option value="Andapa">Andapa</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Ville d'arrivée</label>
-          <select class="form-control" id="routeArrival" required>
-            <option value="Sambava">Sambava</option>
-            <option value="Vohemar">Vohemar</option>
-            <option value="Antalaha">Antalaha</option>
-            <option value="Andapa">Andapa</option>
-          </select>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Heure de départ</label>
-            <input type="text" class="form-control" id="routeTime" placeholder="09:00" required>
+
+      <div id="routesList">
+        <div class="text-center py-5 text-muted">
+          <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Chargement...</span>
           </div>
-          <div class="form-group">
-            <label>Tarif (Ar)</label>
-            <input type="number" class="form-control" id="routePrice" placeholder="25000" required>
-          </div>
+          <p>Chargement...</p>
         </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Capacité (places)</label>
-            <input type="number" class="form-control" id="routeSeats" value="45" required>
-          </div>
-          <div class="form-group">
-            <label>Statut</label>
-            <select class="form-control" id="routeActive">
-              <option value="1">Actif</option>
-              <option value="0">Inactif</option>
-            </select>
-          </div>
-        </div>
-        <button type="submit" class="btn btn-primary btn-block">Enregistrer</button>
-      </form>
+      </div>
     </div>
-  </div>
 
-  <!-- Modal Modifier Statut -->
-  <div class="modal-overlay" id="statusModal">
-    <div class="modal">
-      <div class="modal-header">
-        <h3>Modifier le statut</h3>
-        <button class="modal-close" onclick="closeStatusModal()">&#x2715;</button>
+    <!-- Reservations Tab -->
+    <div id="tabReservations" style="display:none;">
+      <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+        <div>
+          <p class="text-muted small mb-0">Dashboard / Réservations</p>
+          <h1 class="fw-bold" style="font-family:var(--font-display); font-size:1.8rem;">Gestion des réservations</h1>
+        </div>
       </div>
-      <input type="hidden" id="statusBookingId">
-      <div class="form-group">
-        <label>Numéro de réservation</label>
-        <input type="text" class="form-control" id="statusBookingNum" readonly>
-      </div>
-      <div class="form-group">
-        <label>Nouveau statut</label>
-        <select class="form-control" id="statusNew" required>
+
+      <div class="d-flex gap-3 mb-3 flex-wrap">
+        <input type="text" class="form-control flex-grow-1" style="min-width:180px;" id="filterSearch" placeholder="Rechercher par numéro..." oninput="filterReservations()">
+        <select class="form-select" style="min-width:150px;" id="filterStatus" onchange="filterReservations()">
+          <option value="">Tous les statuts</option>
           <option value="confirmed">Confirmé</option>
           <option value="pending">En attente</option>
           <option value="cancelled">Annulé</option>
         </select>
+        <select class="form-select" style="min-width:150px;" id="filterRoute" onchange="filterReservations()">
+          <option value="">Tous les trajets</option>
+        </select>
+        <input type="date" class="form-control" style="min-width:150px;" id="filterDate" onchange="filterReservations()">
       </div>
-      <button class="btn btn-primary btn-block" onclick="updateStatus()">Mettre à jour</button>
+
+      <div id="reservationsList">
+        <div class="text-center py-5 text-muted">
+          <div class="spinner-border text-primary mb-3" role="status">
+            <span class="visually-hidden">Chargement...</span>
+          </div>
+          <p>Chargement...</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Modal Nouveau/Modifier Trajet (Bootstrap) -->
+  <div class="modal fade" id="routeModal" tabindex="-1" aria-labelledby="routeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="routeModalLabel">Nouveau trajet</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <form id="routeForm">
+            <input type="hidden" id="routeId">
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-muted small">Ville de départ</label>
+              <select class="form-select" id="routeDeparture" required>
+                <option value="Sambava">Sambava</option>
+                <option value="Vohemar">Vohemar</option>
+                <option value="Antalaha">Antalaha</option>
+                <option value="Andapa">Andapa</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-semibold text-muted small">Ville d'arrivée</label>
+              <select class="form-select" id="routeArrival" required>
+                <option value="Sambava">Sambava</option>
+                <option value="Vohemar">Vohemar</option>
+                <option value="Antalaha">Antalaha</option>
+                <option value="Andapa">Andapa</option>
+              </select>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small">Heure de départ</label>
+                <input type="text" class="form-control" id="routeTime" placeholder="09:00" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small">Tarif (Ar)</label>
+                <input type="number" class="form-control" id="routePrice" placeholder="25000" required>
+              </div>
+            </div>
+            <div class="row g-3 mb-3">
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small">Capacité (places)</label>
+                <input type="number" class="form-control" id="routeSeats" value="45" required>
+              </div>
+              <div class="col-md-6">
+                <label class="form-label fw-semibold text-muted small">Statut</label>
+                <select class="form-select" id="routeActive">
+                  <option value="1">Actif</option>
+                  <option value="0">Inactif</option>
+                </select>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Enregistrer</button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
 
-  <footer class="footer">
-    <h3>SavaVoyages Admin</h3>
-    <p style="margin-top:10px; font-size:0.8rem; opacity:0.6;">&copy; 2024 Sava Voyages. Tous droits réservés.</p>
+  <!-- Modal Modifier Statut (Bootstrap) -->
+  <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="statusModalLabel">Modifier le statut</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="statusBookingId">
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-muted small">Numéro de réservation</label>
+            <input type="text" class="form-control" id="statusBookingNum" readonly>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold text-muted small">Nouveau statut</label>
+            <select class="form-select" id="statusNew" required>
+              <option value="confirmed">Confirmé</option>
+              <option value="pending">En attente</option>
+              <option value="cancelled">Annulé</option>
+            </select>
+          </div>
+          <button class="btn btn-primary w-100" onclick="updateStatus()">Mettre à jour</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Détails Réservation (Bootstrap) -->
+  <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header border-0">
+          <h5 class="modal-title fw-bold" id="detailModalLabel">Détails de la réservation</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fermer"></button>
+        </div>
+        <div class="modal-body" id="detailContent">
+          <div class="text-center py-4 text-muted">
+            <div class="spinner-border text-primary mb-3" role="status">
+              <span class="visually-hidden">Chargement...</span>
+            </div>
+            <p>Chargement...</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="text-center py-4 border-top text-muted mt-4">
+    <h4 class="fw-bold text-dark">SavaVoyages Admin</h4>
+    <p class="small mt-2 mb-0 opacity-50">&copy; 2024 Sava Voyages. Tous droits réservés.</p>
   </footer>
 
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="/js/admin.js"></script>
 </body>
 </html>
