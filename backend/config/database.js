@@ -80,20 +80,20 @@ function createSqliteTables() {
     const insert = db.prepare(
       'INSERT INTO trajets (departure, arrival, time, price, seats, active) VALUES (?, ?, ?, ?, ?, ?)'
     );
-    // const trajets = [
-    //   ['Sambava', 'Vohemar', '07:00', 25000, 45, 1],
-    //   ['Sambava', 'Antalaha', '08:30', 20000, 45, 1],
-    //   ['Sambava', 'Andapa', '09:00', 18000, 45, 1],
-    //   ['Vohemar', 'Sambava', '13:00', 25000, 45, 1],
-    //   ['Vohemar', 'Antalaha', '14:00', 22000, 45, 1],
-    //   ['Antalaha', 'Sambava', '10:00', 20000, 45, 1],
-    //   ['Antalaha', 'Vohemar', '15:30', 22000, 45, 1],
-    //   ['Antalaha', 'Andapa', '11:00', 15000, 45, 1],
-    //   ['Andapa', 'Sambava', '12:00', 18000, 45, 1],
-    //   ['Andapa', 'Antalaha', '16:00', 15000, 45, 1],
-    //   ['Vohemar', 'Andapa', '17:00', 24000, 45, 1],
-    //   ['Andapa', 'Vohemar', '06:30', 24000, 45, 1]
-    // ];
+    const trajets = [
+      ['Sambava', 'Vohemar', '07:00', 25000, 45, 1],
+      ['Sambava', 'Antalaha', '08:30', 20000, 45, 1],
+      ['Sambava', 'Andapa', '09:00', 18000, 45, 1],
+      ['Vohemar', 'Sambava', '13:00', 25000, 45, 1],
+      ['Vohemar', 'Antalaha', '14:00', 22000, 45, 1],
+      ['Antalaha', 'Sambava', '10:00', 20000, 45, 1],
+      ['Antalaha', 'Vohemar', '15:30', 22000, 45, 1],
+      ['Antalaha', 'Andapa', '11:00', 15000, 45, 1],
+      ['Andapa', 'Sambava', '12:00', 18000, 45, 1],
+      ['Andapa', 'Antalaha', '16:00', 15000, 45, 1],
+      ['Vohemar', 'Andapa', '17:00', 24000, 45, 1],
+      ['Andapa', 'Vohemar', '06:30', 24000, 45, 1]
+    ];
     const insertMany = db.transaction((rows) => rows.forEach((r) => insert.run(...r)));
     insertMany(trajets);
   }
